@@ -49,7 +49,7 @@ public:
     {
         for (observer &o : observers)
         {
-            o.on_event(EVENT_TYPE::RESOLVE);
+            o.on_event(to);
         }
     }
 
@@ -59,7 +59,7 @@ private:
 
 int main()
 {
-    subject s;
+    subject s{};
     observer_concrete oc;
     s.register_observer(oc);
 

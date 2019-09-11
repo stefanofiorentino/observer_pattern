@@ -25,3 +25,23 @@ TEST(ObserverPatter, AuthorDemo)
     ASSERT_EQ(oc_ptr->state, EVENT_TYPE::RESOLVE);
     ASSERT_TRUE(oc_ptr->on_event_called);
 }
+
+TEST(ObserverPatter, LinkedInComment)
+{
+    auto s_ptr = std::make_unique<subject>();
+
+    auto oc_ptr = std::make_shared<test_observer_concrete>();
+    s_ptr->register_observer(oc_ptr);
+
+    auto oc_ptr_2 = std::make_shared<test_observer_concrete>();
+    s_ptr->register_observer(oc_ptr_2);
+
+    s_ptr->emit();
+
+    oc_ptr_2.reset();
+
+    s_ptr->emit();
+
+    ASSERT_EQ(oc_ptr->state, EVENT_TYPE::RESOLVE);
+    ASSERT_TRUE(oc_ptr->on_event_called);
+}

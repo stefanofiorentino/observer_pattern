@@ -18,12 +18,15 @@ public:
     {
         for (auto const &o : observers)
         {
-            o->on_event(to);
+            if (auto shared_o = o.lock())
+            {
+                shared_o->on_event(to);
+            }
         }
     }
 
 private:
-    std::vector<std::shared_ptr<observer>> observers;
+    std::vector<std::weak_ptr<observer>> observers;
 };
 
 #endif //OBSERVER_PATTERN_SUBJECT_H
